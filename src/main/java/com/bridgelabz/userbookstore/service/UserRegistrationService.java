@@ -204,7 +204,7 @@ public class UserRegistrationService implements IUserRegistrationService {
 			LocalDate today = LocalDate.now();
 			isUserPresent.get().setPurchaseDate(LocalDate.now());
 			isUserPresent.get().setExpiryDate(today.plusYears(1));
-			String body = "Dear,"+isUserPresent.get().getFirstName()+"You have Purchase the Book for 1 Year Subscription";
+			String body = "Dear,"+isUserPresent.get().getFirstName()+" You have Purchase the Book for 1 Year Subscription";
 			JMSUtil.sendEmail(isUserPresent.get().getEmailId(), "Get a 1 Year Subscription for Book", body);
 			userRepository.save(isUserPresent.get());
 			return new ResponseDTO("User Purchased Book is Successfully","ExpiryDate : " +isUserPresent.get().getExpiryDate());
@@ -230,6 +230,21 @@ public class UserRegistrationService implements IUserRegistrationService {
 			return new ResponseDTO("File is Successfully uploaded", isUserPresent.get());
 		} 
 		else 
+		{
+			throw new UserRegistrationException(400,"User is already Register, Please Try with another Email Id");
+		}
+	}
+
+	@Override
+	public int checkUser(String token) 
+	{
+		int userId = TokenUtil.decodeToken(token);
+		Optional<UserRegistrationModel> isUserPresent = userRepository.findById(userId);
+		if(isUserPresent.isPresent())
+		{
+			return userId;
+		}
+		else
 		{
 			throw new UserRegistrationException(400,"User is already Register, Please Try with another Email Id");
 		}

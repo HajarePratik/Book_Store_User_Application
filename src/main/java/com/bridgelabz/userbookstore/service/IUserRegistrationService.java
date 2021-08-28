@@ -32,4 +32,5 @@ public interface IUserRegistrationService
 	
 	ResponseDTO documents(String token, MultipartFile kycFile);
 
+	int checkUser(String token);
 }

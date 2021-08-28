@@ -98,5 +98,10 @@ public class UserRegistrationController
 		ResponseDTO respDTO = registrationService.documents(token, kycFile);
 		return new ResponseEntity<ResponseDTO>(respDTO, HttpStatus.OK);
 	}
+	@GetMapping("/checkuser/{token}")
+	public int checkUser(@PathVariable String token)
+	{
+		return registrationService.checkUser(token);
+	}
 
 }
