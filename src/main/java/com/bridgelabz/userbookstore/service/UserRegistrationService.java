@@ -15,15 +15,15 @@ import com.bridgelabz.userbookstore.dto.ResponseDTO;
 import com.bridgelabz.userbookstore.dto.UserRegistrationDTO;
 import com.bridgelabz.userbookstore.exception.UserRegistrationException;
 import com.bridgelabz.userbookstore.model.UserRegistrationModel;
-import com.bridgelabz.userbookstore.respository.UserRegistrationRespository;
+import com.bridgelabz.userbookstore.repository.UserRegistrationRepository;
 import com.bridgelabz.userbookstore.util.JMSUtil;
 import com.bridgelabz.userbookstore.util.TokenUtil;
 
 @Service
 public class UserRegistrationService implements IUserRegistrationService {
-
+	
 	@Autowired
-	UserRegistrationRespository userRepository;
+	private UserRegistrationRepository userRepository;
 	
 	@Autowired
 	ModelMapper modelmapper;
@@ -194,15 +194,25 @@ public class UserRegistrationService implements IUserRegistrationService {
 	}
 
 	@Override
-	public ResponseDTO purchaseDate(String token) {
+	public ResponseDTO purchaseDate(String token) 
+	{
 	
-		return null;
-	}
-
-	@Override
-	public ResponseDTO expiryDate(String token) {
-		
-		return null;
+		int userId = TokenUtil.decodeToken(token);
+		Optional<UserRegistrationModel> isUserPresent = userRepository.findById(userId);
+		if (isUserPresent.isPresent()) 
+		{
+			LocalDate today = LocalDate.now();
+			isUserPresent.get().setPurchaseDate(LocalDate.now());
+			isUserPresent.get().setExpiryDate(today.plusYears(1));
+			String body = "Dear,"+isUserPresent.get().getFirstName()+"You have Purchase the Book for 1 Year Subscription";
+			JMSUtil.sendEmail(isUserPresent.get().getEmailId(), "Get a 1 Year Subscription for Book", body);
+			userRepository.save(isUserPresent.get());
+			return new ResponseDTO("User Purchased Book is Successfully","ExpiryDate : " +isUserPresent.get().getExpiryDate());
+		}
+		else 
+		{
+			throw new UserRegistrationException(400,"User is already Register, Please Try with another Email Id");
+		}
 	}
 
 	@Override

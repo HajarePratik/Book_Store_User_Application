@@ -23,17 +23,17 @@ import io.swagger.annotations.ApiOperation;
 public class UserRegistrationController 
 {
 	
-	@Autowired
-	IUserRegistrationService registrationService;
+	@Autowired(required = true)
+	private IUserRegistrationService registrationService;
 	
 	@GetMapping("/getalluser")
-	public ResponseEntity<ResponseDTO> getAllContacts() {
+	public ResponseEntity<ResponseDTO> getAllUsers() {
 		ResponseDTO respDTO = registrationService.getAllUser();
 		return new ResponseEntity<ResponseDTO>(respDTO, HttpStatus.OK);
 	}
 
 	@GetMapping("/getuser/{token}/{id}")
-	public ResponseEntity<ResponseDTO> getuser(@PathVariable String token,@PathVariable int id)
+	public ResponseEntity<ResponseDTO> getUser(@PathVariable String token,@PathVariable int id)
 	{
 		ResponseDTO respDTO = registrationService.getUserById(id);
 		return new ResponseEntity<ResponseDTO>(respDTO, HttpStatus.OK);
@@ -85,6 +85,12 @@ public class UserRegistrationController
 		return registrationService.verifyOtp(token, otp);
 	}
 	
+	@PutMapping("/purchasesubscription/{token}")
+	public ResponseEntity<ResponseDTO> purchaseDate(@PathVariable String token)
+	{
+		ResponseDTO respDTO = registrationService.purchaseDate(token);
+		return new ResponseEntity<ResponseDTO>(respDTO, HttpStatus.OK);
+	}
 	@PostMapping(value = "/uploadkyc/{token}", consumes = { "multipart/form-data" })
 	@ApiOperation(value = "Upload Documents", response = ResponseDTO.class)
 	public ResponseEntity<ResponseDTO> kycFile(@PathVariable String token,@RequestParam("kycFile") MultipartFile kycFile)

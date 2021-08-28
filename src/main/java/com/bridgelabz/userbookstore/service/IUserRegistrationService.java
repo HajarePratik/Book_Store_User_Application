@@ -10,15 +10,15 @@ import com.bridgelabz.userbookstore.dto.UserRegistrationDTO;
 public interface IUserRegistrationService 
 {
 	
+	ResponseDTO getUserById(int id);
+
+	ResponseDTO getAllUser();
+
 	ResponseDTO createUser(UserRegistrationDTO userDTO);
 
 	ResponseDTO updateUserById(String token,int id, UserRegistrationDTO userDTO);
 	
 	ResponseDTO deleteUserById(String token, int id);
-
-	ResponseDTO getUserById(int id);
-
-	ResponseDTO getAllUser();
 
 	ResponseDTO loginUser(String email, String password);
 
@@ -29,8 +29,6 @@ public interface IUserRegistrationService
 	ResponseDTO verifyOtp(String token, int otp);
 
 	ResponseDTO purchaseDate(String token);
-
-	ResponseDTO expiryDate(String token);
 	
 	ResponseDTO documents(String token, MultipartFile kycFile);
 

@@ -6,6 +6,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Table;
+
+import com.bridgelabz.userbookstore.dto.UserRegistrationDTO;
+
 import lombok.Data;
 import javax.persistence.Id;
 
@@ -30,5 +33,20 @@ public class UserRegistrationModel
 	private int otp;
 	private LocalDate purchaseDate;
 	private LocalDate expiryDate;
+	
+	public UserRegistrationModel() {
+		
+	}
+	
+	public UserRegistrationModel(int Id,UserRegistrationDTO userRegistrationDTO) 
+	{
+		
+		this.firstName = userRegistrationDTO.getFirstName();
+		this.lastName = userRegistrationDTO.getLastName();
+		this.kyc = userRegistrationDTO.getKyc();
+		this.dateOfBirth = userRegistrationDTO.getDateOfBirth();
+		this.emailId = userRegistrationDTO.getEmailId();
+		this.password = userRegistrationDTO.getPassword();
+	}
 
 }
