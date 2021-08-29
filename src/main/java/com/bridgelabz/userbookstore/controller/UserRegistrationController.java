@@ -32,10 +32,10 @@ public class UserRegistrationController
 		return new ResponseEntity<ResponseDTO>(respDTO, HttpStatus.OK);
 	}
 
-	@GetMapping("/getuser/{token}/{id}")
-	public ResponseEntity<ResponseDTO> getUser(@PathVariable String token,@PathVariable int id)
+	@GetMapping("/getuser/{token}/{userid}")
+	public ResponseEntity<ResponseDTO> getUser(@PathVariable String token,@PathVariable int userid)
 	{
-		ResponseDTO respDTO = registrationService.getUserById(id);
+		ResponseDTO respDTO = registrationService.getUserById(userid);
 		return new ResponseEntity<ResponseDTO>(respDTO, HttpStatus.OK);
 	}
 	
@@ -47,15 +47,15 @@ public class UserRegistrationController
 		return new ResponseEntity<ResponseDTO>(resDTO,HttpStatus.OK);
 	}
 	
-	@PutMapping("/updateuser/{token}/{id}")
-	public ResponseEntity<ResponseDTO> updateUser(@PathVariable String token,@PathVariable int id, @RequestBody UserRegistrationDTO userDTO){
-		ResponseDTO respDTO = registrationService.updateUserById(token,id, userDTO);
+	@PutMapping("/updateuser/{token}/{userid}")
+	public ResponseEntity<ResponseDTO> updateUser(@PathVariable String token,@PathVariable int userid, @RequestBody UserRegistrationDTO userDTO){
+		ResponseDTO respDTO = registrationService.updateUserById(token,userid, userDTO);
 		return new ResponseEntity<ResponseDTO>(respDTO, HttpStatus.OK);
 	}
 
-	@DeleteMapping("/deleteuser/{token}/{id}")
-	public ResponseEntity<ResponseDTO> deleteUser(@PathVariable String token, @PathVariable int id) {
-		ResponseDTO respDTO = registrationService.deleteUserById(token, id);
+	@DeleteMapping("/deleteuser/{token}/{userid}")
+	public ResponseEntity<ResponseDTO> deleteUser(@PathVariable String token, @PathVariable int userid) {
+		ResponseDTO respDTO = registrationService.deleteUserById(token, userid);
 		return new ResponseEntity<ResponseDTO>(respDTO, HttpStatus.OK);
 	}
 	
@@ -98,10 +98,10 @@ public class UserRegistrationController
 		ResponseDTO respDTO = registrationService.documents(token, kycFile);
 		return new ResponseEntity<ResponseDTO>(respDTO, HttpStatus.OK);
 	}
-	@GetMapping("/checkuser/{token}")
-	public int checkUser(@PathVariable String token)
+	@GetMapping("/getuserid/{token}")
+	public int getUserId(@PathVariable String token)
 	{
-		return registrationService.checkUser(token);
+		return registrationService.getUserId(token);
 	}
 
 }

@@ -52,7 +52,7 @@ public class UserRegistrationService implements IUserRegistrationService {
 	}
 
 	@Override
-	public ResponseDTO updateUserById(String token,int id, UserRegistrationDTO userDTO) 
+	public ResponseDTO updateUserById(String token,int userid, UserRegistrationDTO userDTO) 
 	{
 		int userId = TokenUtil.decodeToken(token);
 		Optional<UserRegistrationModel> isUserPresent = userRepository.findById(userId);
@@ -76,7 +76,7 @@ public class UserRegistrationService implements IUserRegistrationService {
 	}
 
 	@Override
-	public ResponseDTO deleteUserById(String token, int id) {
+	public ResponseDTO deleteUserById(String token, int userid) {
 		
 		int userId = TokenUtil.decodeToken(token);
 		Optional<UserRegistrationModel> isUserPresent = userRepository.findById(userId);
@@ -92,11 +92,11 @@ public class UserRegistrationService implements IUserRegistrationService {
 	}
 
 	@Override
-	public ResponseDTO getUserById(int id) 
+	public ResponseDTO getUserById(int userid) 
 	{
 		
-		Optional<UserRegistrationModel> isUserPresent = userRepository.findById(id);
-		return new ResponseDTO("User of this Particular ID :" + id, isUserPresent);
+		Optional<UserRegistrationModel> isUserPresent = userRepository.findById(userid);
+		return new ResponseDTO("User of this Particular ID :" + userid, isUserPresent);
 	}
 
 	@Override
@@ -236,7 +236,7 @@ public class UserRegistrationService implements IUserRegistrationService {
 	}
 
 	@Override
-	public int checkUser(String token) 
+	public int getUserId(String token) 
 	{
 		int userId = TokenUtil.decodeToken(token);
 		Optional<UserRegistrationModel> isUserPresent = userRepository.findById(userId);
